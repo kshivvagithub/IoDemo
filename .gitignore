@@ -5,6 +5,9 @@ node_modules/
 platforms/
 plugins/
 
+create-apk.sh
+create-apk.bat
+demo.sh
 
 # Created by https://www.gitignore.io/api/intellij,node,android
 
@@ -89,6 +92,7 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
+www/lib/
 
 # Optional npm cache directory
 .npm
@@ -124,8 +128,6 @@ local.properties
 proguard/
 
 # Log Files
-*.log
-
 # Android Studio Navigation editor temp files
 .navigation/
 
@@ -133,11 +135,8 @@ proguard/
 captures/
 
 # Intellij
-*.iml
-
 # Keystore files
 *.jks
 
 ### Android Patch ###
 gen-external-apklibs
-

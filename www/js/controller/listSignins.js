@@ -1,53 +1,46 @@
 angular.module('app.listSignins', ['ionic-modal-select'])
 
 
-  .controller('listSigninsCtrl', ['$scope', 'SISOSprints', '$ionicLoading', '$ionicModal', '$ionicPopup',
-    function($scope, SISOSprints, $ionicLoading, $ionicModal, $ionicPopup){
+  .controller('listSigninsCtrl', ['$scope', 'SISOSprints', '$ionicLoading', '$ionicModal', '$ionicPopup', 'ProfileFactory', '$filter',
+    function($scope, SISOSprints, $ionicLoading, $ionicModal, $ionicPopup,ProfileFactory, $filter){
 
-      $scope.user = {fname: 'asdf', lname: 'eds'};
-      $scope.dialog = {title: 'Search Manager', buttonLabel:'Find Manager'}
+      $scope.user = {fname: '', lname: ''};
       $scope.records = [];
 
-      $ionicModal.fromTemplateUrl('templates/userDialog.html', {
-        scope: $scope,
-        animation: 'slide-in-up',
-        focusFirstInput: true
-      }).then(function(modal){
-        $scope.userDialog = modal;
-      });
 
-      $scope.$on('$ionicView.loaded', function () {
+      $scope.$on('$ionicView.beforeEnter', function () {
+         $scope.user.fname = ProfileFactory.getProfile().fname;
+         $scope.user.lname = ProfileFactory.getProfile().lname;
 
-        $ionicModal.fromTemplateUrl('templates/userDialog.html', {
-          scope: $scope,
-          animation: 'slide-in-up',
-          focusFirstInput: true
-        }).then(function(modal){
-          $scope.userDialog = modal;
-        });
-      });
+        if($scope.user.fname !== '' &&  $scope.user.lname !== '') {
 
-      $scope.$on('$ionicView.enter', function () {
-        $scope.userDialog.show();
-      });
-
-
-      $scope.searchUser = function(u) {
-        if(u.fname !== '' && u.lname !== ''){
-
-          SISOSprints.get({mfname: u.fname, mlname: u.lname}, function (recs) {
+          SISOSprints.get({mfname: ProfileFactory.getProfile().fname, mlname: ProfileFactory.getProfile().lname}, function (recs) {
             if (typeof recs !== undefined && recs.length > 0) {
               $scope.records = recs;
-              //$ionicLoading.show({template: 'Manager Found!', noBackdrop: true, duration: 2200});
-              $scope.userDialog.hide();
             }else{
-              $ionicLoading.show({template: 'Manager Not Found!', noBackdrop: true, duration: 2200});
+              $ionicLoading.show({template: 'No Users Signed In!', noBackdrop: true, duration: 2200});
             }
 
           });
         }else{
           $ionicLoading.show({template: 'User name must not be empty!', noBackdrop: true, duration: 2200});
         }
+
+      });
+
+      $scope.callDialog = function (number) {
+        var confirmPopup = $ionicPopup.confirm({
+            title:  $filter('tel')(number),
+            template: '',
+            cancelText: 'Cancel',
+            okText: "<a class =\"call-white\" href=\"tel:+1" + number + "\">Call</a>"
+        });
+        confirmPopup.then(function (res) {
+          if(res){
+            window.open('tel:' + number, '_system');
+          }
+        });
       };
+
 
   }]);

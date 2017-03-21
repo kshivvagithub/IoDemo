@@ -32,10 +32,11 @@ $scope.validate = function(mId) {
               //
             }
           });
-
       };
 
-
+      $scope.goToRegisterPage = function(){
+          $location.path('/tab/register');
+      }
     }])
 
   .controller('checkInCheckOutCtrl', ['$scope', '$interval', '$ionicPopup', '$ionicLoading', 'SISOService', 'SISOFactory',
@@ -310,14 +311,17 @@ $scope.validate = function(mId) {
             "mlname": "",
             "contact": "",
             "location": "",
-            "time": ""
+            "time": "",
+            "manager": ""
       };
 
       $scope.$on('$ionicView.beforeEnter', function () {
 
         if(!ProfileFactory.isEmpty()){
+          console.log("lakshmi");
 
           var profileData = ProfileFactory.get();
+          console.log("manager" +profileData.manager);
           Object.keys(profileData).forEach(function(key) {
             $scope.record[key] = profileData[key];
           });
@@ -369,6 +373,7 @@ $scope.validate = function(mId) {
                 "contact": "",
                 "location": "",
                 "time": "",
+                "manager": "",
                 "_id": ""
             };
 

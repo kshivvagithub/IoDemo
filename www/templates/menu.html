@@ -2,22 +2,46 @@
 
   <ion-pane ion-side-menu-content>
     <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
+      <ion-nav-back-button class="button-clear">
+        <i class="icon ion-chevron-left"></i> Back
+      </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left" enable-menu-with-back-views="true">
     <header class="bar bar-header bar-stable">
       <h1 class="title">Menu</h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
+        <!--
+         <ion-item nav-clear menu-close href="#/login">
+          Login
+        </ion-item> -->
         <ion-item nav-clear menu-close href="#/tab/signInSignOut">
           Sign In/Sign Out
         </ion-item>
         <ion-item nav-clear menu-close href="#/tab/listSignins"  ng-show="displayListSignins">
           List Sign-In(s)
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/tab/createManager"  ng-show="isAdmin">
+          Create Manager
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/tab/reassignManager"  ng-show="isAdmin">
+          Re-assign Manager
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/tab/deleteManager"  ng-show="isAdmin">
+          Delete Manager
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/tab/geofences">
+          Geofence
+        </ion-item>
+        <ion-item nav-clear menu-close ng-click="reset()">
+          Reset User
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/tab/register/edit"> <!---->
+          Edit Profile
         </ion-item>
       </ion-list>
     </ion-content>
